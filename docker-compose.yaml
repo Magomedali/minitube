@@ -1,0 +1,36 @@
+version: '3'
+services:
+    
+    api_server:
+        build:
+            context: ./api/docker
+            dockerfile: nginx.docker
+        volumes:
+            - ./api:/app
+        ports:
+            - "8080:80"
+            
+    api_php_fpm:
+        build:
+            context: ./api/docker
+            dockerfile: php-fpm.docker
+        environment:
+            APP_DEBUG: 1
+        volumes:
+            - ./api:/app
+            
+            
+    api_php_cli:
+        build:
+            context: ./api/docker
+            dockerfile: php-cli.docker
+        environment:
+            APP_DEBIG: 1
+        volumes:
+            - ./api:/app
+            - composer:/root/.composer/cache
+            
+volumes:
+    composer:
+         
+    
