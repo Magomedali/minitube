@@ -9,7 +9,17 @@ services:
             - ./api:/app
         ports:
             - "8080:80"
-            
+    
+    frontend_server:
+        build:
+            context: ./frontend/docker
+            dockerfile: frontend.docker
+        ports:
+            - "8081:81"
+        volumes:
+            - ./frontend:/var/www/frontend
+        
+        
     api_php_fpm:
         build:
             context: ./api/docker
@@ -18,6 +28,15 @@ services:
             APP_DEBUG: 1
         volumes:
             - ./api:/app
+            
+    nodejs:
+        image: node:10.11-jessie
+        volumes:
+            - ./frontend:/var/www/frontend
+        working_dir: /var/www/frontend
+        tty: true
+            
+            
             
             
     api_php_cli:
