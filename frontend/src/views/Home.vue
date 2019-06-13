@@ -1,38 +1,31 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  
-  <p v-if="name">
-    {{name}}  {{version}}
-  </p>
-  <p v-else>
-    Loading ...
-  </p>
-</div>
+      <div class="jumbotron">
+        <h1>Welcome to App</h1>
+        <p>
+          Congratulations! You have successfully created new application.
+        </p>
+        <ApiStatus/>
+      </div>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import axios from 'axios'
-
+import ApiStatus from '@/components/ApiStatus.vue'
 export default {
-    name: 'home',
-    data(){
-        return {
-            name:null,
-            version:null
-        }
-    },
-    components: {
-        HelloWorld
-    },
-    mounted() {
-        axios.get("/api").then(resp=>{
-            this.name = resp.data.name;
-            this.version = resp.data.version;
-        });
-    }
+  name: 'home',
+  components: {
+    ApiStatus
+  }
 }
 </script>
+
+<style lang="scss">
+  .jumbotron {
+    padding: 2rem;
+    p:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+</style>
