@@ -12,11 +12,10 @@ if (file_exists('.env')) {
 }
 
 
-$config = require 'config/config.php';
-$container = new \Slim\Container($config);
-$app = new \Slim\App($container);
-
-(require 'config/routes.php')($app);
-
-
-$app->run();
+(function () {
+    $config = require 'config/config.php';
+    $container = new \Slim\Container($config);
+    $app = new \Slim\App($container);
+    (require 'config/routes.php')($app);
+    $app->run();
+})();
