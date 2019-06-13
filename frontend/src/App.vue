@@ -29,6 +29,9 @@
 </script>
 
 <style lang="scss">
+  @import "~bootstrap/dist/css/bootstrap.css";
+  @import "~bootstrap-vue/dist/bootstrap-vue.css";
+
   body {
     min-height: 100vh;
   }
