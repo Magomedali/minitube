@@ -1,5 +1,22 @@
 <?php
+declare(strict_types=1);
 
-header("Content-type: application/json;");
+use Api\Http\Action;
+use Symfony\Component\Dotenv\Dotenv;
 
-echo json_encode(['name'=>'minitube Api','version'=>'night 1.1.0']);
+chdir(dirname(__DIR__));
+require 'vendor/autoload.php';
+
+if (file_exists('.env')) {
+    (new Dotenv())->load('.env');
+}
+
+
+$config = require 'config/config.php';
+$container = new \Slim\Container($config);
+$app = new \Slim\App($container);
+
+(require 'config/routes.php')($app);
+
+
+$app->run();

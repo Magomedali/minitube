@@ -46,9 +46,11 @@ services:
         environment:
             APP_DEBIG: 1
         volumes:
-            - ./api:/app
+            - ./api:/var/www/api
             - composer:/root/.composer/cache
-            
+        working_dir: /var/www/api
+        tty: true
+          
 volumes:
     composer:
          
