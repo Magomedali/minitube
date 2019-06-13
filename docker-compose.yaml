@@ -6,7 +6,7 @@ services:
             context: ./api/docker
             dockerfile: nginx.docker
         volumes:
-            - ./api:/app
+            - ./api:/var/www/api
         ports:
             - "8080:80"
     
@@ -27,7 +27,7 @@ services:
         environment:
             APP_DEBUG: 1
         volumes:
-            - ./api:/app
+            - ./api:/var/www/api
             
     nodejs:
         image: node:10.11-jessie

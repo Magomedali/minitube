@@ -4,8 +4,9 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 
-axios.defaults.baseUrl = process.env.API_URL
 Vue.config.productionTip = false
+
+axios.defaults.baseURL = process.env.VUE_APP_API_URL
 
 new Vue({
   router,
