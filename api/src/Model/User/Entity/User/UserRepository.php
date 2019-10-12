@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace Api\Model\User\Entity\User;
 
-
 interface UserRepository
 {
 	/**
@@ -15,7 +14,6 @@ interface UserRepository
 	/**
 	* @param Email $email
 	* @return User
-	* @throws NotFoundException
 	*/
 	public function getByEmail(Email $email): User;
 
