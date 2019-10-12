@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Api\Model\User\Entity\User;
 
 use DateTimeImmutable;
+use DomainException;
 use Webmozart\Assert\Assert;
 
 class ConfirmToken
@@ -27,6 +28,26 @@ class ConfirmToken
 
 		$this->token = $token;
 		$this->expires = $expires;
+	}
+
+
+	/**
+	* @param string $token
+	* @param DateTimeImmutable $date
+	* @return void
+	* @throws DomainException
+	*/
+	public function validate(string $token,DateTimeImmutable $date): void
+	{
+		if(!$this->isEqualTo($token))
+		{
+			throw new DomainException('Confirm token is invalid.');
+		}
+
+		if($this->isExpiredTo($date))
+		{
+			throw new DomainException('Confirm token is expired.');
+		}
 	}
 
 	/**
