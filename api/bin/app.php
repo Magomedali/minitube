@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Dotenv\Dotenv;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
 
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
@@ -17,11 +19,14 @@ if(file_exists('.env'))
  */
 $container = require 'config/container.php';
 
-
 $cli = new Application('Application console');
 
-$commands = $container->get('config')['console']['commands'];
+$entityManager = $container->get(EntityManagerInterface::class);
+$cli->getHelperSet()->set(new EntityManagerHelper($entityManager), 'em');
 
+Doctrine\ORM\Tools\Console\ConsoleRunner::addCommands($cli);
+
+$commands = $container->get('config')['console']['commands'];
 foreach ($commands as $command) {
 	$cli->add($container->get($command));
 }
