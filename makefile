@@ -19,6 +19,8 @@ api-test:
 composer-install:
 	docker-compose run --rm api-php-cli composer install
 
-
 run-app:
 	docker-compose run --rm api-php-cli composer app
+
+run-app-migrations:
+	docker-compose run --rm api-php-cli composer app migrations:migrate
