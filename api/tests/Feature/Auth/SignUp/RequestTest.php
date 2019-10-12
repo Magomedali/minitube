@@ -25,6 +25,25 @@ class RequestTest extends DbWebTestCase
 	}
 
 
+	public function testNotValidData()
+	{
+		$response = $this->post('/auth/signup', [
+            'email' => 'incorrect-mail',
+            'password' => 'short',
+        ]);
+        
+        self::assertEquals(400, $response->getStatusCode());
+        self::assertJson($content = $response->getBody()->getContents());
+
+        $data = json_decode($content, true);
+        self::assertEquals([
+            'errors' => [
+                'email' => 'This value is not a valid email address.',
+                'password' => 'This value is too short. It should have 6 characters or more.',
+            ],
+        ], $data);
+	}
+
 	public function testSuccess()
 	{
 
