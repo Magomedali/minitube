@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
 use Api\Http\Validator\Validator;
+use Api\Http\ValidationException;
 use DomainException;
 
 class ConfirmAction implements RequestHandlerInterface
@@ -30,7 +31,7 @@ class ConfirmAction implements RequestHandlerInterface
 
         if($errors = $this->validator->validate($command))
         {
-            return new JsonResponse(['errors' => $errors->toArray()], 400);
+            throw new ValidationException($errors);
         }
         
         $this->handler->handle($command);

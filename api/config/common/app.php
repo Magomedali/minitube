@@ -33,6 +33,10 @@ return [
         return new Middleware\ErrorHandlerMiddleware();
     },
 
+    Middleware\ValidationExceptionMiddleware::class => function () {
+        return new Middleware\ValidationExceptionMiddleware();
+    },
+
     Middleware\BodyParamsMiddleware::class => function () {
         return new Middleware\BodyParamsMiddleware();
     },
