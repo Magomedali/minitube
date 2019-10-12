@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Test\Feature\Auth\SignUp;
 
+use Test\Builder\User\UserBuilder;
 use Api\Model\User\Entity\User\ConfirmToken;
 use Api\Model\User\Entity\User\Email;
 use Api\Model\User\Entity\User\User;
@@ -18,13 +19,13 @@ class RequestFixture extends AbstractFixture
 	public function load(ObjectManager $manager)
 	{
 		
-		$user = new User(
-			UserId::next(),
-			$now = new DateTimeImmutable(),
-			new Email('test-yandex@example.com'),
-			'password_hash',
-			new ConfirmToken($token = 'token', new DateTimeImmutable('+1 day'))
-		);
+		$user = UserBuilder::instance()
+								->withId(UserId::next())
+								->withDate($now = new DateTimeImmutable())
+								->withEmail(new Email('test-yandex@example.com'))
+								->withHash('password_hash')
+								->withConfirmToken(new ConfirmToken($token = 'token', new DateTimeImmutable('+1 day')))
+								->build();
 
 		$user->confirmSignup($token, $now);
 

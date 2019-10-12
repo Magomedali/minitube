@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Test\Feature\Auth\SignUp;
 
+use Test\Builder\User\UserBuilder;
 use Api\Model\User\Entity\User\ConfirmToken;
 use Api\Model\User\Entity\User\Email;
 use Api\Model\User\Entity\User\User;
@@ -21,24 +22,23 @@ class ConfirmFixture extends AbstractFixture
 	public function load(ObjectManager $manager)
 	{
 		
-		$this->user = new User(
-			UserId::next(),
-			$now = new DateTimeImmutable(),
-			new Email('test-yandex@example.com'),
-			'password_hash',
-			new ConfirmToken('token', new DateTimeImmutable('+1 day'))
-		);
+		$this->user = UserBuilder::instance()
+								->withId(UserId::next())
+								->withDate(new DateTimeImmutable())
+								->withEmail(new Email('test-yandex@example.com'))
+								->withHash('password_hash')
+								->withConfirmToken(new ConfirmToken($token = 'token', new DateTimeImmutable('+1 day')))
+								->build();
 
 		$manager->persist($this->user);
 
-
-		$this->expired =  new User(
-			UserId::next(),
-			$now = new DateTimeImmutable(),
-			new Email('test-expired@example.com'),
-			'password_hash',
-			new ConfirmToken('expired', new DateTimeImmutable('-1 day'))
-		);
+		$this->expired = UserBuilder::instance()
+								->withId(UserId::next())
+								->withDate(new DateTimeImmutable())
+								->withEmail(new Email('test-expired@example.com'))
+								->withHash('password_hash')
+								->withConfirmToken(new ConfirmToken('expired', new DateTimeImmutable('-1 day')))
+								->build();
 
 		$manager->persist($this->expired);
         $manager->flush();

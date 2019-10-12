@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Api\Test\Unit\Model\User\Entity\User;
 
 use PHPUnit\Framework\TestCase;
+use Test\Builder\User\UserBuilder;
 use Api\Model\User\Entity\User\ConfirmToken;
 use Api\Model\User\Entity\User\Email;
 use Api\Model\User\Entity\User\User;
@@ -14,13 +15,13 @@ class SignUpTest extends TestCase
     public function testSuccess(): void
     {
 
-        $user = new User(
-            $id = UserId::next(),
-            $date = new \DateTimeImmutable(),
-            $email = new Email('mail@example.com'),
-            $hash = 'hash',
-            $token = new ConfirmToken('token', new \DateTimeImmutable('+1 day'))
-        );
+        $user = UserBuilder::instance()
+                                ->withId($id = UserId::next())
+                                ->withDate($date = new \DateTimeImmutable())
+                                ->withEmail($email = new Email('mail@example.com'))
+                                ->withHash($hash = 'hash')
+                                ->withConfirmToken($token = new ConfirmToken('token', new \DateTimeImmutable('+1 day')))
+                                ->build();
         
         self::assertTrue($user->isWait());
         self::assertFalse($user->isActive());

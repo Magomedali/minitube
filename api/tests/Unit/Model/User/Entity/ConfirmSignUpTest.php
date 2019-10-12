@@ -4,6 +4,7 @@ namespace Api\Test\Unit\Model\User\EntityUser;
 
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
+use Test\Builder\User\UserBuilder;
 use Api\Model\User\Entity\User\ConfirmToken;
 use Api\Model\User\Entity\User\Email;
 use Api\Model\User\Entity\User\User;
@@ -18,7 +19,7 @@ class ConfirmSignUpTest extends TestCase
     	$now = new DateTimeImmutable();
         $token = new ConfirmToken('token', $now->modify('+1 day'));
 
-        $user = $this->signUp($token);
+        $user = $this->signUp($now,$token);
         
         self::assertTrue($user->isWait());
         self::assertFalse($user->isActive());
@@ -39,7 +40,7 @@ class ConfirmSignUpTest extends TestCase
 
     	$now = new DateTimeImmutable();
         $token = new ConfirmToken('token', $now->modify('+1 day'));
-        $user = $this->signUp($token);
+        $user = $this->signUp($now,$token);
         
         $this->expectExceptionMessage('Confirm token is invalid.');
         $user->confirmSignup('invalid', $now);
@@ -51,7 +52,7 @@ class ConfirmSignUpTest extends TestCase
 
     	$now = new DateTimeImmutable();
         $token = new ConfirmToken('token', $now->modify('+1 day'));
-        $user = $this->signUp($token);
+        $user = $this->signUp($now,$token);
         
         $this->expectExceptionMessage('Confirm token is expired.');
         $user->confirmSignup($token->getToken(), $now->modify('+2 day'));
@@ -63,7 +64,7 @@ class ConfirmSignUpTest extends TestCase
 
     	$now = new DateTimeImmutable();
         $token = new ConfirmToken('token', $now->modify('+1 day'));
-        $user = $this->signUp($token);
+        $user = $this->signUp($now,$token);
         
         $user->confirmSignup($token->getToken(), $now);
         $this->expectExceptionMessage('User is already active.');
@@ -71,14 +72,11 @@ class ConfirmSignUpTest extends TestCase
     }
 
 
-    private function signUp(ConfirmToken $token): User
+    private function signUp(DateTimeImmutable $date,ConfirmToken $token): User
     {
-    	return new User(
-            UserId::next(),
-            new \DateTimeImmutable(),
-            new Email('mail@example.com'),
-            'hash',
-            $token
-        );
+    	return UserBuilder::instance()
+                                ->withDate($date)
+                                ->withConfirmToken($token)
+                                ->build();
     }
 }
