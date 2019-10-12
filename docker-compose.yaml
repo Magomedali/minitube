@@ -1,7 +1,7 @@
 version: '3'
 services:
     
-    api_server:
+    api-server:
         build:
             context: ./api/docker
             dockerfile: nginx.docker
@@ -10,7 +10,7 @@ services:
         ports:
             - "8080:80"
     
-    frontend_server:
+    frontend-server:
         build:
             context: ./frontend/docker
             dockerfile: frontend.docker
@@ -20,7 +20,7 @@ services:
             - ./frontend:/var/www/frontend
         
         
-    api_php_fpm:
+    api-php-fpm:
         build:
             context: ./api/docker
             dockerfile: php-fpm.docker
@@ -39,7 +39,7 @@ services:
             
             
             
-    api_php_cli:
+    api-php-cli:
         build:
             context: ./api/docker
             dockerfile: php-cli.docker
