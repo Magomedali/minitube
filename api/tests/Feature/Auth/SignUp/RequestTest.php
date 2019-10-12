@@ -9,10 +9,11 @@ class RequestTest extends DbWebTestCase
 
 	public function setUp()
 	{
-		parent::setUp();
+		
+        parent::setUp();
 
 		$this->loadFixtures([
-            'request'=>RequestFixture::class,
+            'request'=>RequestFixture::class
         ]);
 	}
 
@@ -46,13 +47,13 @@ class RequestTest extends DbWebTestCase
 
 	public function testExisting()
 	{
-
+		$user = $this->getFixture('request')->getUser();
 		$response = $this->post('/auth/signup',[
-			'email'=>'test-mail@example.com',
+			'email'=>$user->getEmail()->getEmail(),
 			'password'=>'test-password'
 		]);
 
-		self::assertEquals(201, $response->getStatusCode());
+		self::assertEquals(400, $response->getStatusCode());
 		self::assertJson($content = $response->getBody()->getContents());
 
 		$data = json_decode($content, true);

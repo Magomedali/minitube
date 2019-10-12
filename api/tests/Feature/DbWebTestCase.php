@@ -27,8 +27,9 @@ class DbWebTestCase extends WebTestCase
 			}else{
 				$fixture = new $class();
 			}
+
 			$loader->addFixture($fixture);
-			$this->$_fixtures[$name] = $fixture;
+			$this->_fixtures[$name] = $fixture;
 		}
 		$executor = new ORMExecutor($em, new ORMPurger($em));
 		$executor->execute($loader->getFixtures());
