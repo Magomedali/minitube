@@ -12,7 +12,7 @@ use Api\Model\User\Entity\User\UserId;
 use Api\Model\User\Service\ConfirmTokenizer;
 use Api\Model\User\Service\PasswordHasher;
 
-class Command
+class Handler
 {
 	/**
 	* @var UserRepository
@@ -48,7 +48,11 @@ class Command
         $this->flusher = $flusher;
     }
 
-    public function handle(Command $command)
+    /**
+    * @param Command $command
+    * @return void
+    */
+    public function handle(Command $command): void
     {
     	$email = new Email($command->email);
 

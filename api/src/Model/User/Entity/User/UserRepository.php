@@ -11,6 +11,15 @@ interface UserRepository
 	*/
 	public function hasByEmail(Email $email): bool;
 
+
+	/**
+	* @param Email $email
+	* @return User
+	* @throws NotFoundException
+	*/
+	public function getByEmail(Email $email): User;
+
+
 	/**
 	* @param User $user
 	* @return void

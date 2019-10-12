@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Api\Model\User\Entity\User;
 
 use DateTimeImmutable;
+use DomainException;
 
 class User
 {
@@ -57,6 +58,27 @@ class User
 	}
 	
 
+	public function confirmSignup(string $token, DateTimeImmutable $date): void
+	{
+		if($this->isActive())
+		{
+			throw new DomainException('User is already active.');
+		}
+
+		if(!$this->confirmToken->isEqualTo($token))
+		{
+			throw new DomainException('Confirm token is invalid.');
+		}
+
+		if($this->confirmToken->isExpiredTo($date))
+		{
+			throw new DomainException('Confirm token is expired.');
+		}
+
+		$this->status = self::STATUS_ACTIVE;
+        $this->confirmToken = null;
+	}
+
 	/**
 	* @return bool
 	*/
@@ -108,7 +130,7 @@ class User
     /**
 	* @return ConfirmToken
 	*/
-    public function getConfirmToken(): ConfirmToken
+    public function getConfirmToken(): ?ConfirmToken
     {
         return $this->confirmToken;
     }

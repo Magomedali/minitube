@@ -30,11 +30,29 @@ class ConfirmToken
 	}
 
 	/**
+	* @param string $token
+	* @return boolean
+	*/
+	public function isEqualTo(string $token): bool
+	{
+		return $this->token === $token;
+	}
+
+
+	/**
 	* @param DateTimeImmutable $date
 	* @return boolean
 	*/
 	public function isExpiredTo(DateTimeImmutable $date): bool
 	{
 		return $this->expires <= $date;
+	}
+
+	/**
+	* @return string
+	*/
+	public function getToken(): string
+	{
+		return $this->token;
 	}
 }
