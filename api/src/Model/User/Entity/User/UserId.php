@@ -22,6 +22,14 @@ class UserId
 	}
 
 	/**
+	* @return string
+	*/
+	public function getId(): string
+	{
+		return $this->id;
+	}
+
+	/**
 	* @return UserId
 	*/
 	public static function next(): self
