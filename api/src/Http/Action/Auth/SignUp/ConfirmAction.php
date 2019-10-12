@@ -42,7 +42,7 @@ class ConfirmAction implements RequestHandlerInterface
 
     private function deserialize(ServerRequestInterface $request): Command
     {
-    	$body = json_decode($request->getBody()->getContents(), true);
+    	$body = $request->getParsedBody();
         $command = new Command();
         $command->email = $body['email'] ?? '';
         $command->token = $body['token'] ?? '';
