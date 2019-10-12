@@ -12,7 +12,7 @@ use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Uri;
 
-class WebTestCase extends TestCase
+abstract class WebTestCase extends TestCase
 {
 
 	protected function get(string $uri,array $headers = []): ResponseInterface

@@ -36,6 +36,14 @@ return [
             $container->get(Api\Model\Flusher::class)
         );
     },
+
+
+    UserModel\UseCase\SignUp\Confirm\Handler::class => function (ContainerInterface $container) {
+        return new UserModel\UseCase\SignUp\Confirm\Handler(
+            $container->get(UserModel\Entity\User\UserRepository::class),
+            $container->get(Api\Model\Flusher::class)
+        );
+    },
     
 
     'config' => [
