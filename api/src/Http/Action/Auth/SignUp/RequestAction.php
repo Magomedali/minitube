@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Api\Http\Validator\Validator;
 use DomainException;
 
 class RequestAction implements RequestHandlerInterface
@@ -17,7 +17,7 @@ class RequestAction implements RequestHandlerInterface
 
     private $validator;
 
-    public function __construct(Handler $handler, ValidatorInterface $validator)
+    public function __construct(Handler $handler, Validator $validator)
     {
         $this->handler = $handler;
         $this->validator = $validator;
@@ -29,14 +29,9 @@ class RequestAction implements RequestHandlerInterface
         
         $violations = $this->validator->validate($command);
 
-        if($violations->count() > 0)
+        if($errors = $this->validator->validate($command))
         {
-            $errors = [];
-            foreach ($violations as $violation) {
-                $errors[$violation->getPropertyPath()] = $violation->getMessage();
-            }
-
-            return new JsonResponse(['errors' => $errors], 400);
+            return new JsonResponse(['errors' => $errors->toArray()], 400);
         }
 
         $this->handler->handle($command);
