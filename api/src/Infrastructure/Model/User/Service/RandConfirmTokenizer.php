@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
-namespace ApiInfrastructure\Model\User\Service;
+namespace Api\Infrastructure\Model\User\Service;
 
 use DateInterval;
 use DateTimeImmutable;
 use Api\Model\User\Service\ConfirmTokenizer;
 use Api\Model\User\Entity\User\ConfirmToken;
 
-class RandConfirmTokenizer extends ConfirmTokenizer
+class RandConfirmTokenizer implements ConfirmTokenizer
 {
 	/**
 	* @var string
@@ -15,7 +15,7 @@ class RandConfirmTokenizer extends ConfirmTokenizer
 	private $interval;
     
 
-    public function __construct(DateInterval $interval = 12)
+    public function __construct(DateInterval $interval)
     {
         $this->interval = $interval;
     }

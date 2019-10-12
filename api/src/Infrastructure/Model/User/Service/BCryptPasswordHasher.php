@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
-namespace ApiInfrastructure\Model\User\Service;
+namespace Api\Infrastructure\Model\User\Service;
 
 use Api\Model\User\Service\PasswordHasher;
 
-class BCryptPasswordHasher extends PasswordHasher
+class BCryptPasswordHasher implements PasswordHasher
 {
 	/**
 	* @var int

@@ -63,7 +63,7 @@ class Handler
 
     	$user = new User(
     		UserId::next(),
-    		new DateTimeImmutable()
+    		new DateTimeImmutable(),
     		$email,
     		$this->hasher->hash($command->password),
     		$this->tokenizer->generate()

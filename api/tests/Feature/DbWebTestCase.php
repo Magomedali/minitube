@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Test\Feature;
 
-use \InvalidArgumentException;
+use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
@@ -15,7 +15,7 @@ class DbWebTestCase extends WebTestCase
 
 
 
-	protected function loadFixture(array $fixtures)
+	protected function loadFixtures(array $fixtures)
 	{
 		$container = $this->getContainer();
 		$em = $container->get(EntityManagerInterface::class);

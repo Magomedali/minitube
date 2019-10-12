@@ -2,7 +2,8 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.5/phpunit.xsd"
          bootstrap="tests/bootstrap.php"
-         colors="true">
+         colors="true"
+         stopOnFailure="true">
     <testsuites>
         <testsuite name="feature">
             <directory suffix="Test.php">./tests/Feature</directory>
@@ -19,7 +20,7 @@
     </filter>
 
     <php>
-        <env name="APP_DEBUG" value="1"/>
-        <env name="APP_ENV" value="test"/>
+        <env name="API_DEBUG" value="1"/>
+        <env name="API_ENV" value="test"/>
     </php>
 </phpunit>
