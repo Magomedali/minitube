@@ -13,7 +13,7 @@ class HomeAction implements RequestHandlerInterface
     {
         return new JsonResponse([
             'name' => 'App API',
-            'version' => '1.0.0',
+            'version' => '1.0.0'
         ]);
     }
 }
