@@ -7,6 +7,7 @@ use Doctrine\Migrations\Tools\Console\Helper\ConfigurationHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
 
+
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 

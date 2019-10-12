@@ -8,21 +8,37 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use DomainException;
 
 class ConfirmAction implements RequestHandlerInterface
 {
     private $handler;
 
-    public function __construct(Handler $handler)
+    private $validator;
+
+    public function __construct(Handler $handler, ValidatorInterface $validator)
     {
         $this->handler = $handler;
+        $this->validator = $validator;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $command = $this->deserialize($request);
-            
+        
+        $violations = $this->validator->validate($command);
+
+        if($violations->count() > 0)
+        {
+            $errors = [];
+            foreach ($violations as $violation) {
+                $errors[$violation->getPropertyPath()] = $violation->getMessage();
+            }
+
+            return new JsonResponse(['errors' => $errors], 400);
+        }
+        
         $this->handler->handle($command);
 
         return new JsonResponse([], 201);
