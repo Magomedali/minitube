@@ -45,6 +45,7 @@ $cli->getHelperSet()->set(new EntityManagerHelper($entityManager), 'em');
 Doctrine\ORM\Tools\Console\ConsoleRunner::addCommands($cli);
 
 $commands = $container->get('config')['console']['commands'];
+
 foreach ($commands as $command) {
 	$cli->add($container->get($command));
 }
