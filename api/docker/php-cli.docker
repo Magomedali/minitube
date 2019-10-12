@@ -5,4 +5,8 @@ FROM php:7.1-cli
 
  RUN wget https://getcomposer.org/installer -O - -q | php -- --install-dir=/bin --filename=composer --quiet
 
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
+RUN git config --global user.name "devalico" && git config --global user.email "web-ali@yandex.ru"
+
  WORKDIR /var/www/api

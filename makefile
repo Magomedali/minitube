@@ -15,3 +15,6 @@ run-php-cli:
 
 api-test:
 	docker-compose run --rm api-php-cli composer test
+
+composer-install:
+	docker-compose run --rm api-php-cli composer install
