@@ -39,13 +39,13 @@ class User
 
 	/**
 	* @var string
-	* @ORM\Column(type="string")
+	* @ORM\Column(type="string", name="password_hash")
 	*/
 	private $passwordHash;
 
 	/**
 	* @var ConfirmToken
-	* @ORM\Embedded(class="ConfirmToken", column_prefix="confirm_token_")
+	* @ORM\Embedded(class="ConfirmToken", columnPrefix="confirm_token_")
 	*/
 	private $confirmToken;
 
