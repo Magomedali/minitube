@@ -5,16 +5,22 @@ namespace Api\Model\User\Entity\User;
 use DateTimeImmutable;
 use DomainException;
 use Webmozart\Assert\Assert;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+* @ORM\Embeddable
+*/
 class ConfirmToken
 {
 	/**
 	* @var string
+	* @ORM\Column(type="string", nullable=true)
 	*/
 	private $token;
 
 	/**
 	* @var DateTimeImmutable
+	* @ORM\Column(type="datetime_immutable", nullable=true)
 	*/
 	private $expires;
 
@@ -49,6 +55,15 @@ class ConfirmToken
 			throw new DomainException('Confirm token is expired.');
 		}
 	}
+
+	/**
+	* @return boolean
+	*/
+	public function isEmpty(): bool
+    {
+        return empty($this->token);
+    }
+
 
 	/**
 	* @param string $token

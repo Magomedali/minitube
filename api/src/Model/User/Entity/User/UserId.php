@@ -36,5 +36,11 @@ class UserId
 	{
 		return new self(Uuid::uuid4()->toString());
 	}
+
+
+	public function __toString(): string
+    {
+        return $this->id;
+    }
 	
 }

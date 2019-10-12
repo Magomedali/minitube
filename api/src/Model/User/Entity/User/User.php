@@ -4,7 +4,15 @@ namespace Api\Model\User\Entity\User;
 
 use DateTimeImmutable;
 use DomainException;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+* @ORM\Entity
+* @ORM\HasLifecycleCallbacks
+* @ORM\Table(name="user_users", uniqueConstraints={
+* 	@ORM\UniqueConstraint(columns={"email"})
+* })
+*/
 class User
 {
 	const STATUS_WAIT = 'wait';
@@ -12,31 +20,38 @@ class User
 
 	/**
 	* @var UserId
+	* @ORM\Column(type="user_user_id")
+	* @ORM\Id
 	*/
 	private $id;
 
 	/**
 	* @var DateTimeImmutable
+	* @ORM\Column(type="datetime_immutable")
 	*/
 	private $date;
 
 	/**
 	* @var Email
+	* @ORM\Column(type="user_user_email")
 	*/
 	private $email;
 
 	/**
 	* @var string
+	* @ORM\Column(type="string")
 	*/
 	private $passwordHash;
 
 	/**
 	* @var ConfirmToken
+	* @ORM\Embedded(class="ConfirmToken", column_prefix="confirm_token_")
 	*/
 	private $confirmToken;
 
 	/**
 	* @var string
+	* @ORM\Column(type="string", length=16)
 	*/
 	private $status;
 
@@ -131,6 +146,17 @@ class User
     public function getConfirmToken(): ?ConfirmToken
     {
         return $this->confirmToken;
+    }
+
+
+    /**
+     * @ORM\PostLoad()
+     */
+    public function checkEmbeds(): void
+    {
+    	if ($this->confirmToken->isEmpty()) {
+            $this->confirmToken = null;
+        }
     }
 
 }
