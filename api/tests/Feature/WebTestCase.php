@@ -10,7 +10,7 @@ use Slim\App;
 use Zend\Diactoros\Stream;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Uri
+use Zend\Diactoros\Uri;
 
 class WebTestCase extends TestCase
 {
@@ -49,7 +49,7 @@ class WebTestCase extends TestCase
 	{
 		$app = $this->app();
 		$response = $app->process($request,new Response());
-		$response->withBody()->rewind();
+		$response->getBody()->rewind();
 		return $response;
 	}
 
