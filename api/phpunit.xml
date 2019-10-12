@@ -20,5 +20,6 @@
 
     <php>
         <env name="APP_DEBUG" value="1"/>
+        <env name="APP_ENV" value="test"/>
     </php>
 </phpunit>
