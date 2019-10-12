@@ -16,7 +16,8 @@
     },
     "autoload":{
         "psr-4":{
-            "Api\\":"src"
+            "Api\\": "src",
+            "Test\\": "tests"
         }
     },
     "scripts":{
