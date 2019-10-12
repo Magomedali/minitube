@@ -21,7 +21,7 @@ class RequestFixture extends AbstractFixture
 		$user = new User(
 			UserId::next(),
 			$now = new DateTimeImmutable(),
-			new Email('test@r.tu'),
+			new Email('test-mail@example.com'),
 			'password_hash',
 			new ConfirmToken($token = 'token', new DateTimeImmutable('+1 day'))
 		);
