@@ -1,7 +1,12 @@
 <?php
 declare(strict_types=1);
 
+use Psr\Container\ContainerInterface;
 use Api\Http\Action;
+use Doctrine\Common\Cache\FilesystemCache;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Setup;
 
 return [
     'settings' => [
@@ -9,7 +14,32 @@ return [
         'displayErrorDetails' => (bool)getenv('API_DEBUG'),
     ],
     
-    Action\HomeAction::class => function () {
+    Action\HomeAction::class => function (ContainerInterface $container) {
         return new Action\HomeAction();
     },
+
+    EntityManagerInterface::class => function(ContainerInterface $container){
+    	$params = $container->get('config')['doctrine'];
+    	$config = Setup::createAnnotationMetadataConfiguration(
+            $params['metadata_dirs'],
+            $params['dev_mode'],
+            $params['cache_dir'],
+            new FilesystemCache(
+                $params['cache_dir']
+            ),
+            false
+        );
+    	return  EntityManager::create($params['connection'],$config);
+    },
+
+    'config'=>[
+    	'doctrine'=>[
+    		'dev_mode' => true,
+            'cache_dir' => 'var/cache/doctrine',
+            'metadata_dirs' => ['src/Model/User/Entity'],
+            'connection' => [
+                'url' => getenv('API_DB_URL'),
+            ],
+    	]
+    ]
 ];
