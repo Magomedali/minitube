@@ -5,6 +5,10 @@ namespace Api\Model\User\Entity\User;
 use DateTimeImmutable;
 use DomainException;
 use Doctrine\ORM\Mapping as ORM;
+use Api\Model\AggregateRoot;
+use Api\Model\EventTrait;
+use Api\Model\User\Entity\User\Event\UserConfirmed;
+use Api\Model\User\Entity\User\Event\UserCreated;
 
 /**
 * @ORM\Entity
@@ -13,8 +17,10 @@ use Doctrine\ORM\Mapping as ORM;
 * 	@ORM\UniqueConstraint(columns={"email"})
 * })
 */
-class User
+class User implements AggregateRoot
 {
+	use EventTrait;
+
 	const STATUS_WAIT = 'wait';
 	const STATUS_ACTIVE = 'active';
 
@@ -70,6 +76,7 @@ class User
 		$this->passwordHash = $hash;
 		$this->confirmToken = $confirmToken;
 		$this->status = self::STATUS_WAIT;
+		$this->recordEvent(new UserCreated($this->id,$this->email,$this->confirmToken));
 	}
 	
 
@@ -90,6 +97,8 @@ class User
 
 		$this->status = self::STATUS_ACTIVE;
         $this->confirmToken = null;
+
+		$this->recordEvent(new UserConfirmed($this->id));
 	}
 
 	/**
