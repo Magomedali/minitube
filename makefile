@@ -27,3 +27,10 @@ run-app-migrations:
 
 run-app-fixtures:
 	docker-compose run --rm api-php-cli composer app fixtures:load
+
+
+buid-frontend:
+	docker-compose exec frontend-nodejs npm run build
+
+watch-frontend:
+	docker-compose run --rm frontend-watcher npm run watch
