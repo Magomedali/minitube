@@ -9,6 +9,8 @@ services:
             - ./api:/var/www/api
         ports:
             - "8080:80"
+        depends_on:
+            - api-php-fpm
     
     api-php-fpm:
         build:
