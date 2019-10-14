@@ -22,7 +22,7 @@ return [
 	Listener\User\CreatedListener::class => function (ContainerInterface $container) {
 		return new Listener\User\CreatedListener(
 			$container->get(Swift_Mailer::class),
-			$container->get('config')['mailer']['from'],
+			$container->get('config')['mailer']['from']
 		);
 	}
 ];

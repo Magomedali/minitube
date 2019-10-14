@@ -9,7 +9,7 @@ use Api\Infrastructure\Framework\ErrorHandler\LogPhpHandler;
 return [
 
 	LoggerInterface::class => function (ContainerInterface $container) {
-		$confir = $container->get('config')['logger'];
+		$config = $container->get('config')['logger'];
 		$logger = new \Monolog\Logger('API');
 		$logger->pushHandler(new \Monolog\Handler\StreamHandler($config['file']));
 		return $logger;

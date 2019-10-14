@@ -4,6 +4,8 @@ namespace Api\Infrastructure\Model\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Api\Model\Flusher;
+use Api\Model\AggregateRoot;
+use Api\Model\EventDispatcher;
 
 
 class DoctrineFlusher implements Flusher
@@ -13,13 +15,25 @@ class DoctrineFlusher implements Flusher
 	*/
 	private $em;
 
-	public function __construct(EntityManagerInterface $em)
+	/**
+	* @var EventDispatcher
+	*/
+	private $dispatcher;
+
+	public function __construct(EntityManagerInterface $em, EventDispatcher $dispatcher)
 	{
 		$this->em = $em;
+		$this->dispatcher = $dispatcher;
 	}
 
-	public function flush(): void
+	public function flush(AggregateRoot ...$roots): void
 	{
 		$this->em->flush();
+
+		$events = array_reduce($roots, function (array $events, AggregateRoot $root) {
+            return array_merge($events, $root->releaseEvents());
+        }, []);
+
+        $this->dispatcher->dispatch(...$events);
 	}
 }

@@ -5,7 +5,6 @@ namespace Api\Model\User\UseCase\SignUp\Request;
 use DateTimeImmutable;
 use DomainException;
 use Api\Model\Flusher;
-use Api\Model\EventDispatcher;
 use Api\Model\User\Entity\User\UserRepository;
 use Api\Model\User\Entity\User\User;
 use Api\Model\User\Entity\User\Email;
@@ -36,23 +35,17 @@ class Handler
     public $flusher;
 
     /**
-    * @var EventDispatcher
-    */
-    public $dispatcher;
-
-    /**
 	* @param UserRepository
 	* @param PasswordHasher
 	* @param ConfirmTokenizer
 	* @param Flusher
 	*/
-    public function __construct(UserRepository $users, PasswordHasher $hasher, ConfirmTokenizer $tokenizer, Flusher $flusher, EventDispatcher $dispatcher)
+    public function __construct(UserRepository $users, PasswordHasher $hasher, ConfirmTokenizer $tokenizer, Flusher $flusher)
     {
     	$this->users = $users;
         $this->hasher = $hasher;
         $this->tokenizer = $tokenizer;
         $this->flusher = $flusher;
-        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -79,8 +72,6 @@ class Handler
 
     	$this->users->add($user);
 
-    	$this->flusher->flush();
-        
-        $this->dispatcher->dispatch(...$user->releaseEvents());
+    	$this->flusher->flush($user);
     }
 }
