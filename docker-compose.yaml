@@ -22,7 +22,8 @@ services:
             - ./api:/var/www/api
         depends_on:
             - api-postgres
-
+            - api-mailer
+            
     api-php-cli:
         build:
             context: ./api/docker
@@ -36,6 +37,7 @@ services:
         tty: true
         depends_on:
             - api-postgres
+            - api-mailer
 
     api-postgres:
         image: postgres:9.6-alpine
@@ -65,7 +67,12 @@ services:
         tty: true
             
             
-            
+    api-mailer:
+        image: mailhog/mailhog
+        restart: unless-stopped
+        ports:
+            - "1025:1025"
+            - "8082:8025"
             
     
           
