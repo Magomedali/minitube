@@ -4,6 +4,7 @@ namespace Api\Model\User\UseCase\SignUp\Confirm;
 
 use DateTimeImmutable;
 use Api\Model\Flusher;
+use Api\Model\EventDispatcher;
 use Api\Model\User\Entity\User\UserRepository;
 use Api\Model\User\Entity\User\Email;
 
@@ -19,15 +20,21 @@ class Handler
     */
     public $flusher;
 
+    /**
+    * @var EventDispatcher
+    */
+    public $dispatcher;
+
 
     /**
     * @param UserRepository $users
     * @param Flusher $flusher
     */
-    public function __construct(UserRepository $users, Flusher $flusher)
+    public function __construct(UserRepository $users, Flusher $flusher, EventDispatcher $dispatcher)
     {
     	$this->users = $users;
         $this->flusher = $flusher;
+        $this->dispatcher = $dispatcher;
     }
 
 
@@ -42,5 +49,7 @@ class Handler
     	$user->confirmSignup($command->token, new DateTimeImmutable());
 
     	$this->flusher->flush();
+
+        $this->dispatcher->dispatch(...$user->releaseEvents());
     }
 }
