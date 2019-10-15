@@ -29,7 +29,7 @@ run-app-fixtures:
 	docker-compose run --rm api-php-cli composer app fixtures:load
 
 
-buid-frontend:
+build-frontend:
 	docker-compose exec frontend-nodejs npm run build
 
 watch-frontend:
